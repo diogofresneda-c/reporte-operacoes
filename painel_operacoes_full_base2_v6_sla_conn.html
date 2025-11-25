@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<title>Painel Operações Liquid · Visão Geral (Base 2_overview v6)</title>
+<style>
+:root {
+  --black:#000000;
+  --gray:#CECECE;
+  --gray-soft:#1A1A1A;
+  --orange:#F3A169;
+  --olive:#576558;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  padding:32px 24px 40px;
+  background:radial-gradient(circle at top,#111 0,#000 55%);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  color:#F6F6F6;
+}
+.page{
+  max-width:1280px;
+  margin:0 auto;
+}
+header.page-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:20px;
+}
+.title-block h1{
+  margin:0;
+  font-size:24px;
+  color:var(--orange);
+  letter-spacing:-0.04em;
+}
+.title-block .subtitle{
+  font-size:12px;
+  color:var(--gray);
+  margin-top:2px;
+}
+.chips{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  font-size:12px;
+  align-items:flex-end;
+}
+.chip{
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid #333;
+  background:#050505;
+  color:#CECECE;
+}
+.shell{
+  border-radius:18px;
+  border:1px solid #232323;
+  background:radial-gradient(circle at top left,#171717 0,#050505 60%);
+  padding:16px 18px 20px;
+  box-shadow:0 22px 60px rgba(0,0,0,0.7);
+}
+.card{
+  background:linear-gradient(145deg,#141414,#060606);
+  border-radius:14px;
+  border:1px solid #242424;
+  padding:14px 14px 16px;
+  margin-bottom:14px;
+}
+.card h2{
+  margin:0 0 6px;
+  font-size:15px;
+  letter-spacing:-0.01em;
+  color:#FFF;
+}
+.card p.sub{
+  margin:0;
+  font-size:11px;
+  color:#CECECE;
+}
+.card-section-title{
+  font-size:12px;
+  margin:10px 0 4px;
+  color:#CECECE;
+}
+.card-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+  margin-top:8px;
+}
+.pie-wrapper{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+.pie{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:conic-gradient(#F3A169 0.00deg 127.74deg, #576558 127.74deg 243.87deg, #CECECE 243.87deg 301.94deg, #2F8FED 301.94deg 360.00deg);
+  position:relative;
+  box-shadow:0 10px 30px rgba(0,0,0,0.8);
+}
+.pie::after{
+  content:"";
+  position:absolute;
+  inset:24px;
+  background:#050505;
+  border-radius:50%;
+}
+.pie-center-label{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  color:#F6F6F6;
+  z-index:1;
+}
+.legend{
+  font-size:11px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.legend-item{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.legend-color{
+  width:10px;
+  height:10px;
+  border-radius:4px;
+}
+.table-ops{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:6px;
+  font-size:11px;
+}
+.table-ops th{
+  text-align:left;
+  font-weight:500;
+  color:#CECECE;
+  padding:4px 4px 6px;
+  border-bottom:1px solid #262626;
+}
+.table-ops td{
+  padding:4px;
+  border-bottom:1px solid #181818;
+}
+.table-ops tbody tr:last-child td{border-bottom:none;}
+.table-ops td:first-child{
+  font-weight:500;
+  color:#FFF;
+}
+.table-ops th.num,
+.table-ops td.num{ text-align:center; }
+
+.filters{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:8px;
+  margin-bottom:8px;
+}
+.filters label{
+  font-size:11px;
+  color:#CECECE;
+}
+.filters select{
+  background:#050505;
+  border-radius:999px;
+  border:1px solid #333;
+  color:#F6F6F6;
+  padding:4px 10px;
+  font-size:11px;
+  outline:none;
+}
+
+.badge-atraso{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid #F66;
+  color:#FFB3B3;
+  font-size:10px;
+  background:rgba(255,102,102,0.12);
+}
+
+.sla-product-block{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid #262626;
+}
+.sla-product-title{
+  font-size:12px;
+  font-weight:600;
+  color:#F6F6F6;
+  margin-bottom:6px;
+}
+.sla-rows{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  font-size:12px;
+}
+.sla-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.sla-label{
+  min-width:160px;
+}
+.sla-track{
+  flex:1;
+  height:8px;
+  border-radius:999px;
+  background:#151515;
+  overflow:hidden;
+}
+.sla-fill{
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#F3A169,#576558);
+}
+.sla-value{
+  min-width:70px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.sla-extra{
+  font-size:11px;
+  color:#AAAAAA;
+  margin-left:160px;
+}
+
+@media (max-width:960px){
+  header.page-header{flex-direction:column;align-items:flex-start;}
+  .pie-wrapper{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+<main class="page">
+  <section class="shell">
+    <header class="page-header">
+      <div class="title-block">
+        <h1>Painel Operações Liquid</h1>
+        <div class="subtitle">Visão geral · Base 2_overview (v6) · Status, atrasos, paradas, 1ª entrega, filtros e SLA.</div>
+      </div>
+      <div class="chips">
+        <div class="chip" style="font-size:11px;">Atualizado em 25/11/2025 (Brasília)</div>
+      </div>
+    </header>
+
+    <!-- Card 1: Pizza por status -->
+    <article class="card">
+      <h2>Panorama geral de status</h2>
+      <p class="sub">Distribuição percentual das demandas por status na aba “Base 2_overview”.</p>
+      <div class="card-row">
+        <div class="pie-wrapper">
+          <div class="pie">
+            <div class="pie-center-label">
+              <div style="text-align:center;">
+                Total<br><strong>31</strong>
+              </div>
+            </div>
+          </div>
+          <div class="legend">
+            <div class="legend-item">
+              <span class="legend-color" style="background:#F3A169;"></span>
+              <span>Entregue — 11 (35,5%)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background:#576558;"></span>
+              <span>Atrasada — 10 (32,3%)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background:#CECECE;"></span>
+              <span>Em dia — 5 (16,1%)</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background:#2F8FED;"></span>
+              <span>Parada — 5 (16,1%)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3 class="card-section-title">Tabela de apoio</h3>
+      <table class="table-ops">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th class="num">Qtd</th>
+            <th class="num">% do total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Entregue</td>
+            <td class="num">11</td>
+            <td class="num">35,5%</td>
+          </tr>
+          <tr>
+            <td>Atrasada</td>
+            <td class="num">10</td>
+            <td class="num">32,3%</td>
+          </tr>
+          <tr>
+            <td>Em dia</td>
+            <td class="num">5</td>
+            <td class="num">16,1%</td>
+          </tr>
+          <tr>
+            <td>Parada</td>
+            <td class="num">5</td>
+            <td class="num">16,1%</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <!-- Card 2: Demandas atrasadas -->
+    <article class="card">
+      <h2>Demandas atrasadas</h2>
+      <p class="sub">Demandas com status <strong>Atrasada</strong> na aba “Base 2_overview”.</p>
+      <table class="table-ops">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Tipo de conexão</th>
+            <th>Produto</th>
+            <th>Primeira entrega?</th>
+            <th>Motivo</th>
+            <th>Fase atual</th>
+            <th>Data esperada do Recebimento (Base)</th>
+            <th>Data do Recebimento</th>
+            <th>Data entrega (est.)</th>
+            <th class="num">Dias em atraso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Jotanunes</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Não</td>
+            <td>Base recebida com atraso</td>
+            <td>Pré Normalizador</td>
+            <td>10/11/2025</td>
+            <td>25/11/2025</td>
+            <td>12/12/2025</td>
+            <td class="num"><span class="badge-atraso">15</span></td>
+          </tr>
+          <tr>
+            <td>Valor Real</td>
+            <td>Upload</td>
+            <td>PLAY MONITOR</td>
+            <td>Não</td>
+            <td>Base recebida com atraso</td>
+            <td>Pré Normalizador</td>
+            <td>10/11/2025</td>
+            <td>21/11/2025</td>
+            <td>05/12/2025</td>
+            <td class="num"><span class="badge-atraso">11</span></td>
+          </tr>
+          <tr>
+            <td>Araújo Fontes</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Não</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>Arie</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Sim</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>BP</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Sim</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>MQuattro</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Sim</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>Realiza</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Não</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>Victa</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Não</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>Vila Brasil</td>
+            <td>Upload</td>
+            <td>PLAY MONITOR</td>
+            <td>Não</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>Vivamus</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Sim</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <!-- Card 3: Demandas paradas -->
+    <article class="card">
+      <h2>Demandas paradas</h2>
+      <p class="sub">Demandas com status <strong>Parada</strong> na aba “Base 2_overview”.</p>
+      <table class="table-ops">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Tipo de conexão</th>
+            <th>Produto</th>
+            <th>Primeira entrega?</th>
+            <th>Motivo</th>
+            <th>Fase atual</th>
+            <th>Data esperada do Recebimento (Base)</th>
+            <th>Data do Recebimento</th>
+            <th>Data entrega (est.)</th>
+            <th class="num">Dias em atraso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Conx - Lâmina</td>
+            <td>API</td>
+            <td>PLAY LÂMINA</td>
+            <td>Não</td>
+            <td>Sem acesso. (Stand by)</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td class="num"><span class="badge-atraso">0</span></td>
+          </tr>
+          <tr>
+            <td>Conx - Monitor</td>
+            <td>API</td>
+            <td>PLAY MONITOR</td>
+            <td>Não</td>
+            <td>Alteração de template SBPE para MCMV. Dúvidas enviadas para o Joaquim na 4a 19/11.</td>
+            <td>Gerar Base</td>
+            <td>10/11/2025</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td class="num"><span class="badge-atraso">0</span></td>
+          </tr>
+          <tr>
+            <td>HM</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Não</td>
+            <td>Pendente do cliente</td>
+            <td>Outros</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>Smart</td>
+            <td>Acesso ERP</td>
+            <td>PLAY ONE SHOT</td>
+            <td>Não</td>
+            <td>Dúvidas enviadas 21/11</td>
+            <td>Sincronizar Dados</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>Vivamus</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Sim</td>
+            <td>Pendente do cliente</td>
+            <td>Outros</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <!-- Card 4: Demandas de 1ª entrega -->
+    <article class="card">
+      <h2>Demandas de 1ª entrega</h2>
+      <p class="sub">Demandas marcadas como <strong>Primeira Entrega = Sim</strong> na aba “Base 2_overview”.</p>
+      <table class="table-ops">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Tipo de conexão</th>
+            <th>Produto</th>
+            <th>Primeira entrega?</th>
+            <th>Motivo</th>
+            <th>Fase atual</th>
+            <th>Data esperada do Recebimento (Base)</th>
+            <th>Data do Recebimento</th>
+            <th>Data entrega (est.)</th>
+            <th class="num">Dias em atraso</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Creditú</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Sim</td>
+            <td>Serão 3 motores, 1 já entregue os demais em análise. Dia 27/11 teremos uma estimativa para os demais motores.</td>
+            <td>Outros</td>
+            <td>10/11/2025</td>
+            <td>18/11/2025</td>
+            <td></td>
+            <td class="num"><span class="badge-atraso">8</span></td>
+          </tr>
+          <tr>
+            <td>Ziyou</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Sim</td>
+            <td>Aguardando ajuste do time de Produtos</td>
+            <td>Outros</td>
+            <td>10/11/2025</td>
+            <td>18/11/2025</td>
+            <td>24/11/2025</td>
+            <td class="num"><span class="badge-atraso">8</span></td>
+          </tr>
+          <tr>
+            <td>Fibra</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Sim</td>
+            <td></td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td>07/11/2025</td>
+            <td></td>
+            <td class="num"><span class="badge-atraso">-3</span></td>
+          </tr>
+          <tr>
+            <td>Arie</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Sim</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>BP</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Sim</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>MQuattro</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Sim</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>Vivamus</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Sim</td>
+            <td>Base não recebida</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+          <tr>
+            <td>Vivamus</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Sim</td>
+            <td>Pendente do cliente</td>
+            <td>Outros</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+            <td class="num"><span class="badge-atraso"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <!-- Card 5: Tabela com filtros por produto e status -->
+    <article class="card">
+      <h2>Explorar demandas por filtros</h2>
+      <p class="sub">Use os filtros de produto e status para visualizar apenas as demandas relevantes.</p>
+
+      <div class="filters">
+        <label>
+          Produto<br/>
+          <select id="filtroProduto">
+            <option value="">Todos</option>
+            <option value="PASS">PASS</option>
+            <option value="PLAY LÂMINA">PLAY LÂMINA</option>
+            <option value="PLAY MONITOR">PLAY MONITOR</option>
+            <option value="PLAY ONE SHOT">PLAY ONE SHOT</option>
+          </select>
+        </label>
+
+        <label>
+          Status<br/>
+          <select id="filtroStatus">
+            <option value="">Todos</option>
+            <option value="Atrasada">Atrasada</option>
+            <option value="Em dia">Em dia</option>
+            <option value="Entregue">Entregue</option>
+            <option value="Parada">Parada</option>
+          </select>
+        </label>
+      </div>
+
+      <table class="table-ops" id="tabelaDemandas">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Tipo de conexão</th>
+            <th>Produto</th>
+            <th>Status</th>
+            <th>Primeira entrega?</th>
+            <th>Fase atual</th>
+            <th>Data esperada do Recebimento (Base)</th>
+            <th>Data do Recebimento</th>
+            <th>Data entrega (est.)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-produto="PLAY MONITOR" data-status="Entregue">
+            <td>Aguiar de Paula</td>
+            <td>API</td>
+            <td>PLAY MONITOR</td>
+            <td>Entregue</td>
+            <td>Não</td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td>06/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PASS" data-status="Em dia">
+            <td>Aguiar de Paula</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Em dia</td>
+            <td>Não</td>
+            <td>Outros</td>
+            <td>10/11/2025</td>
+            <td>21/11/2025</td>
+            <td>25/11/2025</td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Atrasada">
+            <td>Araújo Fontes</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Atrasada</td>
+            <td>Não</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Atrasada">
+            <td>Arie</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Atrasada</td>
+            <td>Sim</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Atrasada">
+            <td>BP</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Atrasada</td>
+            <td>Sim</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Entregue">
+            <td>BRZ</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Entregue</td>
+            <td>Não</td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td>17/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY LÂMINA" data-status="Parada">
+            <td>Conx - Lâmina</td>
+            <td>API</td>
+            <td>PLAY LÂMINA</td>
+            <td>Parada</td>
+            <td>Não</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td>10/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Parada">
+            <td>Conx - Monitor</td>
+            <td>API</td>
+            <td>PLAY MONITOR</td>
+            <td>Parada</td>
+            <td>Não</td>
+            <td>Gerar Base</td>
+            <td>10/11/2025</td>
+            <td>10/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PASS" data-status="Em dia">
+            <td>Creditú</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Em dia</td>
+            <td>Sim</td>
+            <td>Outros</td>
+            <td>10/11/2025</td>
+            <td>18/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PASS" data-status="Entregue">
+            <td>Diálogo</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Entregue</td>
+            <td>Não</td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td>12/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PASS" data-status="Entregue">
+            <td>Fibra</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Entregue</td>
+            <td>Sim</td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td>07/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Entregue">
+            <td>Gallipar - Eleva</td>
+            <td>API</td>
+            <td>PLAY MONITOR</td>
+            <td>Entregue</td>
+            <td>Não</td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td>10/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Entregue">
+            <td>Gallipar - Viva Park</td>
+            <td>API</td>
+            <td>PLAY MONITOR</td>
+            <td>Entregue</td>
+            <td>Não</td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td>10/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PASS" data-status="Parada">
+            <td>HM</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Parada</td>
+            <td>Não</td>
+            <td>Outros</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Entregue">
+            <td>ImCasa</td>
+            <td>API</td>
+            <td>PLAY MONITOR</td>
+            <td>Entregue</td>
+            <td>Não</td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td>10/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Atrasada">
+            <td>Jotanunes</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Atrasada</td>
+            <td>Não</td>
+            <td>Pré Normalizador</td>
+            <td>10/11/2025</td>
+            <td>25/11/2025</td>
+            <td>12/12/2025</td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Entregue">
+            <td>Lyx</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Entregue</td>
+            <td>Não</td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Entregue">
+            <td>Masa</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Entregue</td>
+            <td>Não</td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td>11/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PASS" data-status="Em dia">
+            <td>MPD</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Em dia</td>
+            <td>Não</td>
+            <td>Outros</td>
+            <td>10/11/2025</td>
+            <td>18/11/2025</td>
+            <td>05/12/2025</td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Atrasada">
+            <td>MQuattro</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Atrasada</td>
+            <td>Sim</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Em dia">
+            <td>MS</td>
+            <td>Upload</td>
+            <td>PLAY MONITOR</td>
+            <td>Em dia</td>
+            <td>Não</td>
+            <td>Pré Normalizador</td>
+            <td>10/11/2025</td>
+            <td>13/11/2025</td>
+            <td>02/12/2025</td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Entregue">
+            <td>OM</td>
+            <td>Acesso ERP</td>
+            <td>PLAY MONITOR</td>
+            <td>Entregue</td>
+            <td>Não</td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td>11/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Atrasada">
+            <td>Realiza</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Atrasada</td>
+            <td>Não</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY ONE SHOT" data-status="Parada">
+            <td>Smart</td>
+            <td>Acesso ERP</td>
+            <td>PLAY ONE SHOT</td>
+            <td>Parada</td>
+            <td>Não</td>
+            <td>Sincronizar Dados</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Atrasada">
+            <td>Valor Real</td>
+            <td>Upload</td>
+            <td>PLAY MONITOR</td>
+            <td>Atrasada</td>
+            <td>Não</td>
+            <td>Pré Normalizador</td>
+            <td>10/11/2025</td>
+            <td>21/11/2025</td>
+            <td>05/12/2025</td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Entregue">
+            <td>Veccon</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Entregue</td>
+            <td>Não</td>
+            <td>Entregue</td>
+            <td>10/11/2025</td>
+            <td>10/11/2025</td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Atrasada">
+            <td>Victa</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Atrasada</td>
+            <td>Não</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Atrasada">
+            <td>Vila Brasil</td>
+            <td>Upload</td>
+            <td>PLAY MONITOR</td>
+            <td>Atrasada</td>
+            <td>Não</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PLAY MONITOR" data-status="Atrasada">
+            <td>Vivamus</td>
+            <td>Envio de Base</td>
+            <td>PLAY MONITOR</td>
+            <td>Atrasada</td>
+            <td>Sim</td>
+            <td>Receber Base</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PASS" data-status="Parada">
+            <td>Vivamus</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Parada</td>
+            <td>Sim</td>
+            <td>Outros</td>
+            <td>10/11/2025</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr data-produto="PASS" data-status="Em dia">
+            <td>Ziyou</td>
+            <td>Plataforma Liquid</td>
+            <td>PASS</td>
+            <td>Em dia</td>
+            <td>Sim</td>
+            <td>Outros</td>
+            <td>10/11/2025</td>
+            <td>18/11/2025</td>
+            <td>24/11/2025</td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+
+    <!-- Card 6: SLA por produto & tipo de conexão -->
+    <article class="card">
+      <h2>SLA por produto & tipo de conexão</h2>
+      <p class="sub">Média de SLA da Entrega (dias) por combinação de produto e tipo de conexão. A barra representa o SLA real; abaixo mostramos o SLA estimado quando disponível.</p>
+      <div class="sla-product-block">
+        <div class="sla-product-title">PASS</div>
+        <div class="sla-rows">
+          <div class="sla-row">
+            <div class="sla-label">Plataforma Liquid</div>
+            <div class="sla-track">
+              <div class="sla-fill" style="width:75.0%;"></div>
+            </div>
+            <div class="sla-value">6,0 dias</div>
+          </div>
+          <div class="sla-extra">SLA estimado: 9,0 dias</div>
+        </div>
+      </div>
+      <div class="sla-product-block">
+        <div class="sla-product-title">PLAY MONITOR</div>
+        <div class="sla-rows">
+          <div class="sla-row">
+            <div class="sla-label">Acesso ERP</div>
+            <div class="sla-track">
+              <div class="sla-fill" style="width:100.0%;"></div>
+            </div>
+            <div class="sla-value">8,0 dias</div>
+          </div>
+          <div class="sla-extra">SLA estimado:  dias</div>
+          <div class="sla-row">
+            <div class="sla-label">Envio de Base</div>
+            <div class="sla-track">
+              <div class="sla-fill" style="width:87.5%;"></div>
+            </div>
+            <div class="sla-value">7,0 dias</div>
+          </div>
+          <div class="sla-extra">SLA estimado: 17,0 dias</div>
+          <div class="sla-row">
+            <div class="sla-label">API</div>
+            <div class="sla-track">
+              <div class="sla-fill" style="width:84.4%;"></div>
+            </div>
+            <div class="sla-value">6,8 dias</div>
+          </div>
+          <div class="sla-extra">SLA estimado:  dias</div>
+          <div class="sla-row">
+            <div class="sla-label">Upload</div>
+            <div class="sla-track">
+              <div class="sla-fill" style="width:0.0%;"></div>
+            </div>
+            <div class="sla-value"> dias</div>
+          </div>
+          <div class="sla-extra">SLA estimado: 19,0 dias</div>
+        </div>
+      </div>
+    </article>
+  </section>
+</main>
+
+<script>
+  const filtroProduto = document.getElementById('filtroProduto');
+  const filtroStatus = document.getElementById('filtroStatus');
+  const linhas = Array.from(document.querySelectorAll('#tabelaDemandas tbody tr'));
+
+  function aplicarFiltro() {
+    const p = filtroProduto.value;
+    const s = filtroStatus.value;
+    linhas.forEach(tr => {
+      const prod = tr.getAttribute('data-produto') || '';
+      const stat = tr.getAttribute('data-status') || '';
+      const okProd = !p || prod === p;
+      const okStatus = !s || stat === s;
+      tr.style.display = (okProd && okStatus) ? '' : 'none';
+    });
+  }
+
+  filtroProduto.addEventListener('change', aplicarFiltro);
+  filtroStatus.addEventListener('change', aplicarFiltro);
+</script>
+
+</body>
+</html>
